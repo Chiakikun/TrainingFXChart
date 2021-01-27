@@ -18,7 +18,7 @@ namespace TrainingFXChart
         public const uint FIFTEENMINUTE = 1500;
         public const uint HALFHOUR = 3000;
         public const uint ONEHOUR = 6000;
-        public const uint LCNT = 2;  // ライン描画可能数
+        public const uint LCNT = 10;  // ライン描画可能数
         public const uint LCLR = 0;  // 線削除
         public const uint LHORZ = 1; // 水平線
         public const uint LMA = 2;   // 移動平均線
