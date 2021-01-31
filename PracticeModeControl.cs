@@ -121,8 +121,21 @@ namespace TrainingFXChart
         private void IncButton_Click(object sender, EventArgs e)
         {
             // キャンバスの足を1本進める
+            double[] oldCandle = GetCandle();
             SetCurrentIndex(IdxCurrent += 1);
             double[] currentcandle = GetCandle();
+
+            // これ以上進めないので、現在の建玉を全決済してモード終了
+            if (oldCandle[0] == currentcandle[0])
+            {
+                for (int i = PositionTable.Rows.Count - 1; i >= 0; i--)
+                {
+                    PositionTable.Rows[i].Cells["DateTime"].Value = FormatDate(currentcandle[Const.IDXDATE]);
+                    LogAdd("決済", i);
+                    PositionTable.Rows.RemoveAt(i);
+                }
+                CloseButton_Click(this, e);
+            }
 
             //
             // 新規注文
