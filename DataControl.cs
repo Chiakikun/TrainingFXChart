@@ -24,6 +24,10 @@ namespace TrainingFXChart
         /// </summary>
         public Action<int> SetIndex;
 
+        /// <summary>
+        /// 画面の一番右のローソクのインデックスを取得する。
+        /// </summary>
+        public Func<int> GetIndex;
 
         private Currency _currency;
 
@@ -49,6 +53,17 @@ namespace TrainingFXChart
                 }
             }
             SetIndex(-1);
+        }
+
+
+        private void OffsetJump_Click(object sender, EventArgs e)
+        {
+            int idx = GetIndex() + (int)Offset.Value;
+
+            if (idx > _currency.Data.GetLength(0))
+                idx = _currency.Data.GetLength(0);
+
+            SetIndex(idx);
         }
     }
 }

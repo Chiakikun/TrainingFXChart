@@ -37,6 +37,7 @@ namespace TrainingFXChart
 
             // DataControl
             this.dataControl1.SetIndex += this.SetCandleIndex;
+            this.dataControl1.GetIndex += this.GetIndex;
 
             // TechnicalLineManager
             this.technicalLineManager1.SetLineSetting += this.SetLineSetting;
@@ -345,11 +346,20 @@ namespace TrainingFXChart
 
 
         /// <summary>
-        /// ChartCanvasが表示している一番右のローソクのインデックスを取得する
+        /// ChartCanvasが表示している一番右のローソクのデータを取得する
         /// </summary>
         private double[] GetCandle()
         {
             return chartCanvas1.EndCandle;
+        }
+
+
+        /// <summary>
+        /// ChartCanvasが表示している一番右のローソクのインデックスを取得する
+        /// </summary>
+        private int GetIndex()
+        {
+            return chartCanvas1.IdxEnd;
         }
 
         #endregion

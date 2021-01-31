@@ -40,12 +40,18 @@
             this.Month = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.Year = new System.Windows.Forms.NumericUpDown();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.OffsetJump = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.Offset = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Minute)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Hour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Day)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Month)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Year)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Offset)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -223,10 +229,64 @@
             0,
             0});
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.OffsetJump);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.Offset);
+            this.groupBox2.Location = new System.Drawing.Point(3, 81);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(218, 45);
+            this.groupBox2.TabIndex = 13;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "オフセットでジャンプ";
+            // 
+            // OffsetJump
+            // 
+            this.OffsetJump.Location = new System.Drawing.Point(137, 14);
+            this.OffsetJump.Name = "OffsetJump";
+            this.OffsetJump.Size = new System.Drawing.Size(75, 23);
+            this.OffsetJump.TabIndex = 17;
+            this.OffsetJump.Text = "ジャンプ";
+            this.OffsetJump.UseVisualStyleBackColor = true;
+            this.OffsetJump.Click += new System.EventHandler(this.OffsetJump_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(94, 20);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(29, 12);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "分後";
+            // 
+            // Offset
+            // 
+            this.Offset.Location = new System.Drawing.Point(6, 18);
+            this.Offset.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.Offset.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Offset.Name = "Offset";
+            this.Offset.Size = new System.Drawing.Size(87, 19);
+            this.Offset.TabIndex = 15;
+            this.Offset.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // DataControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "DataControl";
             this.Size = new System.Drawing.Size(243, 226);
@@ -237,6 +297,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.Day)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Month)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Year)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Offset)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -254,5 +317,9 @@
         private System.Windows.Forms.NumericUpDown Month;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown Year;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button OffsetJump;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.NumericUpDown Offset;
     }
 }
