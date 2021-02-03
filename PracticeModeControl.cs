@@ -262,6 +262,8 @@ namespace TrainingFXChart
         /// </summary>
         private void PositionTable_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (e.RowIndex == -1) return;
+
             string sashine = PositionTable.Rows[e.RowIndex].Cells["OrderSashineValue"].Value.ToString();
             string gyakusashi = PositionTable.Rows[e.RowIndex].Cells["OrderGyakuSashineValue"].Value.ToString();
             RevOrderDialog order = new RevOrderDialog(sashine, gyakusashi);
@@ -290,6 +292,8 @@ namespace TrainingFXChart
         /// </summary>
         private void OrderTable_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (e.RowIndex == -1) return;
+
             // 注文が存在するセルをダブルクリックすると、その注文は削除される
             var value = OrderTable[0, e.RowIndex].Value;
             if (value.ToString() != "")

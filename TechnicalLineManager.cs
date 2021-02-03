@@ -65,6 +65,8 @@ namespace TrainingFXChart
 
         private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (e.RowIndex == -1) return;
+
             menuRow = -1;
 
             // 線種の列をダブルクリックすると、線種選択メニューが表示される
