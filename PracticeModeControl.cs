@@ -130,6 +130,7 @@ namespace TrainingFXChart
             {
                 for (int i = PositionTable.Rows.Count - 1; i >= 0; i--)
                 {
+                    PositionTable.Rows[i].Cells["Value"].Value = currentcandle[Const.IDXCL];
                     PositionTable.Rows[i].Cells["DateTime"].Value = FormatDate(currentcandle[Const.IDXDATE]);
                     LogAdd("決済", i);
                     PositionTable.Rows.RemoveAt(i);
@@ -180,7 +181,7 @@ namespace TrainingFXChart
                         if (ordervalue >= currentcandle[Const.IDXLW])
                         {
                             double yakujo = ordervalue > currentcandle[Const.IDXOP] ? currentcandle[Const.IDXOP] : ordervalue;
-                            RevOrder(i, yakujo, number, value - yakujo, currentcandle);
+                            RevOrder(i, yakujo, number, yakujo - value, currentcandle);
                             continue;
                         }
                     // 利確できるか？
@@ -202,7 +203,7 @@ namespace TrainingFXChart
                         if (ordervalue <= currentcandle[Const.IDXHI])
                         {
                             double yakujo = ordervalue < currentcandle[Const.IDXOP] ? currentcandle[Const.IDXOP] : ordervalue;
-                            RevOrder(i, yakujo, number, yakujo - value, currentcandle);
+                            RevOrder(i, yakujo, number, value - yakujo, currentcandle);
                             continue;
                         }
                     // 利確できるか？
@@ -263,12 +264,14 @@ namespace TrainingFXChart
         {
             string sashine = PositionTable.Rows[e.RowIndex].Cells["OrderSashineValue"].Value.ToString();
             string gyakusashi = PositionTable.Rows[e.RowIndex].Cells["OrderGyakuSashineValue"].Value.ToString();
-
             RevOrderDialog order = new RevOrderDialog(sashine, gyakusashi);
             order.ShowDialog();
+
             switch (order.Order)
             {
                 case Const.ONARI:
+                    PositionTable.Rows[e.RowIndex].Cells["Value"].Value = GetCandle()[Const.IDXCL];
+                    PositionTable.Rows[e.RowIndex].Cells["DateTime"].Value = FormatDate(GetCandle()[Const.IDXDATE]);
                     LogAdd("決済", e.RowIndex);
                     PositionTable.Rows.RemoveAt(e.RowIndex);
                     break;
