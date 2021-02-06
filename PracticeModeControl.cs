@@ -49,6 +49,7 @@ namespace TrainingFXChart
         {
             _orderlogfile = sd.OrderLogFile;
             _intervalseconds = sd.IntervalSeconds * 1000;
+            timer1.Interval = _intervalseconds;
         }
 
 
