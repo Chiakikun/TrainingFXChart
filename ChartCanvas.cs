@@ -138,6 +138,18 @@ namespace TrainingFXChart
                 idxCurrent = 0;
             hScrollBar1.Value = idxCurrent;
 
+            // ライン設定が存在するなら、読み込んだ通貨でラインを再作成する
+            for (int i = 0; i < TechnicalLines.Length; i++)
+            {
+                if (TechnicalLines[i] == null) continue;
+
+                if (TechnicalLines[i].Item1 == Const.LMA)
+                {
+                    double[] linevalues = MovingAverage.MA(_currency, (int)TechnicalLines[i].Item2);
+                    TechnicalLines[i] = new Tuple<uint, double, Color, double[]>(TechnicalLines[i].Item1, TechnicalLines[i].Item2, TechnicalLines[i].Item3, linevalues);
+                }
+            }
+
             AdjustScrollBar();
             Invalidate();
         }
