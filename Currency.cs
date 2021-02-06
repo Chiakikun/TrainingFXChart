@@ -92,9 +92,16 @@ namespace TrainingFXChart
                             _data[i - 1, Const.IDXCL] = double.Parse(splited[Const.IDXCL]);
                         }
 
-                        // 進捗100%でプログレスダイアログ閉じる
                         pd.Ret = System.Windows.Forms.DialogResult.OK;
-                        pd.FormClose();
+                        // ダイアログが表示される前にここにきてしまうと、「CreateHandle() の実行中は値Close()を呼び出せません」というエラーが出力されてしまうので。
+                        while (true)
+                        {
+                            if (pd.FormVisible)
+                            {
+                                pd.FormClose();
+                                break;
+                            }
+                        }
                     }, _CancellationTokenSource.Token);
                 }
                 catch (OperationCanceledException)
