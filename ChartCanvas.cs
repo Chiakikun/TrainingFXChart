@@ -277,6 +277,7 @@ namespace TrainingFXChart
                 for (int i = 0; i < TechnicalLines.Length; i++)
                 {
                     if (TechnicalLines[i] == null) continue;
+                    if (TechnicalLines[i].Item4 == null) continue;
                     if (TechnicalLines[i].Item1 != Const.LMA) continue;
                     if (double.IsNaN(TechnicalLines[i].Item4[idxStartCandle])) continue;
                     drawtecline[i].Add(new Point(x, y - (int)((TechnicalLines[i].Item4[idxStartCandle] - min) * coe)));
@@ -290,7 +291,7 @@ namespace TrainingFXChart
             for (int i = 0; i < TechnicalLines.Length; i++)
             {
                 if (TechnicalLines[i] == null) continue;
-
+                if (TechnicalLines[i].Item4 == null) continue;
                 if (TechnicalLines[i].Item1 == Const.LMA) // MA
                     g.DrawLines(new Pen(TechnicalLines[i].Item3), drawtecline[i].ToArray());
                 else if (TechnicalLines[i].Item1 == Const.LHORZ) // 水平線
