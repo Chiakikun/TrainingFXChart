@@ -33,6 +33,15 @@ namespace TrainingFXChart
             }
         }
 
+        
+        public bool FormVisible
+        {
+            get
+            {
+                return this.Visible;
+            }
+        }
+
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
