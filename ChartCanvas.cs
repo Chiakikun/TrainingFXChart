@@ -113,9 +113,12 @@ namespace TrainingFXChart
             hScrollBar1.LargeChange = DisplayColumn();
 
             idxCurrent = CurrencyLength() - DisplayColumn();
+            if (idxCurrent < 0)
+                idxCurrent = 0;
             hScrollBar1.Value = idxCurrent;
 
             AdjustScrollBar();
+            Invalidate();
         }
 
 
