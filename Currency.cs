@@ -8,6 +8,8 @@ using System.IO;
 
 using System.Windows.Forms;
 
+using MyClass.Collection;
+
 namespace TrainingFXChart
 {
     /// <summary>
@@ -128,7 +130,7 @@ namespace TrainingFXChart
                     prefix = (long)Math.Floor(table[i, Const.IDXDATE] / 10000) * 10000;
                 hist.Add(prefix + (long)Math.Floor((table[i, Const.IDXDATE] - prefix) / divide), i);
             }
-            long[] keys = hist.Keys();
+            long[] keys = hist.Keys;
 
             // まとめた要素を集計する
             double[,] newtable = new double[keys.Length, 5];

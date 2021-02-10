@@ -1,137 +1,154 @@
-﻿/******************************************************************************************
- *  Copyright (c) 2016 Chiaki Yamada https://yamada153@bitbucket.org/yamada153/cylibcs.git
- *  Released under the MIT license
- *  http://opensource.org/licenses/mit-license.php
- ******************************************************************************************/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 
-/// <summary>
-/// 検索と並び替えのためのクラス。
-/// 結果をインデックスの配列で返す。
-/// </summary>
-class SSIndex<Type>
+namespace MyClass.Collection
 {
-    private Dictionary<Type, List<int>> _IndexRecord;
-
     /// <summary>
-    /// 空のSSIndexを作成する
+    /// 検索と並び替えの結果をインデックスの配列で返す
     /// </summary>
-    public SSIndex(int caption = 100) //100は適当
+    class SSIndex<Type>
     {
-        _IndexRecord = new Dictionary<Type, List<int>>(caption);
-    }
+        private Dictionary<Type, List<int>> _IndexRecord;
 
-    /// <summary>
-    /// doubleやstring等の配列を登録する
-    /// </summary>
-    public SSIndex(Type[] datas)
-    {
-        if (datas == null) throw new ArgumentNullException("SSIndexの初期化に失敗しました。引数「datas」にnullが渡されました");
 
-        _IndexRecord = new Dictionary<Type, List<int>>(datas.Length);
-
-        for (int i = 0; i < datas.Count(); i++)
-            Add(datas[i], i);
-    }
-
-    /// <summary>
-    /// 独自クラスの配列を登録する
-    /// </summary>
-    public SSIndex(Type[] datas, IEqualityComparer<Type> eq)
-    {
-        if (datas == null) throw new ArgumentNullException("SSIndexの初期化に失敗しました。引数「datas」にnullが渡されました");
-
-        _IndexRecord = new Dictionary<Type, List<int>>(datas.Length, eq);
-
-        for (int i = 0; i < datas.Count(); i++)
-            Add(datas[i], i);
-    }
-
-    /// <summary>
-    /// 登録済みのキー数を返す
-    /// </summary>
-    public int Count()
-    {
-        return _IndexRecord.Count;
-    }
-
-    /// <summary>
-    /// 登録済みのキーの配列を返す
-    /// </summary>
-    public Type[] Keys()
-    {
-        return _IndexRecord.Keys.ToArray();
-    }
-
-    /// <summary>
-    /// 指定したキーに紐付いたインデックスを返す。検索できなかった場合はnullを返す
-    /// </summary>
-    public int[] Search(Type key)
-    {
-        if (key == null) throw new ArgumentNullException("SSIndex.Searchに失敗しました。引数「key」にnullが渡されました");
-
-        if (!_IndexRecord.ContainsKey(key)) return null;
-        return _IndexRecord[key].ToArray();
-    }
-
-    /// <summary>
-    /// キーを並び替えて、各キーに紐付いたインデックスを順に返す
-    /// </summary>
-    public int[] Sort()
-    {
-        Type[] tmp = _IndexRecord.Keys.ToArray();
-        Array.Sort<Type>(tmp);
-
-        List<int> resultlist = new List<int>();
-        foreach(Type t in tmp)
-            foreach (int i in Search(t)) resultlist.Add(i);
-
-        return resultlist.ToArray();
-    }
-
-    /// <summary>
-    /// キーを並び替えて、各キーに紐付いたインデックスを順に返す
-    /// </summary>
-    public int[] Sort(IComparer<Type> cmp)
-    {
-        Type[] tmp = _IndexRecord.Keys.ToArray();
-        Array.Sort<Type>(tmp, cmp);
-
-        List<int> resultlist = new List<int>();
-        foreach (Type t in tmp)
-            foreach (int i in Search(t)) resultlist.Add(i);
-        return resultlist.ToArray();
-    }
-
-    /// <summary>
-    /// 未登録のキーを登録する。登録済みならインデックスを追加する
-    /// </summary>
-    public void Add(Type key, int index)
-    {
-        if (!_IndexRecord.ContainsKey(key))
+        public SSIndex(int caption = 100) //100は適当
         {
-            List<int> tmp = new List<int>();
-            tmp.Add(index);
-            _IndexRecord.Add(key, tmp);
+            _IndexRecord = new Dictionary<Type, List<int>>(caption);
         }
-        else
+
+
+        public int Count
         {
-            _IndexRecord[key].Add(index);
+            get
+            {
+                return _IndexRecord.Count;
+            }
+        }
+
+
+        public Type[] Keys
+        {
+            get
+            {
+                return _IndexRecord.Keys.ToArray();
+            }
+        }
+
+
+        /// <summary>
+        /// 指定したキーに紐付いたインデックスを返す。検索できなかった場合はnullを返す
+        /// </summary>
+        public int[] Search(Type key)
+        {
+            if (!_IndexRecord.ContainsKey(key))
+                return null;
+
+            return _IndexRecord[key].ToArray();
+        }
+
+        
+        /// <summary>
+        /// キーを並び替えて、各キーに紐付いたインデックスを順に返す
+        /// </summary>
+        public int[] Sort()
+        {
+            Type[] tmp = Keys;
+            Array.Sort<Type>(tmp);
+
+            List<int> resultlist = new List<int>();
+            foreach (Type t in tmp)
+                foreach (int i in Search(t)) resultlist.Add(i);
+
+            return resultlist.ToArray();
+        }
+       
+        
+        /// <summary>
+        /// キーを並び替えて、各キーに紐付いたインデックスを順に返す
+        /// </summary>
+        public int[] Sort(Comparison<Type> cmp)
+        {
+            Type[] tmp = _IndexRecord.Keys.ToArray();
+            Array.Sort(tmp, cmp);
+
+            List<int> resultlist = new List<int>();
+            foreach (Type t in tmp)
+                foreach (int i in Search(t)) resultlist.Add(i);
+            return resultlist.ToArray();
+        }
+        
+
+        /// <summary>
+        /// 未登録のキーを登録する。登録済みならインデックスを追加する
+        /// </summary>
+        public void Add(Type key, int index)
+        {
+            if (!_IndexRecord.ContainsKey(key))
+            {
+                List<int> tmp = new List<int>();
+                tmp.Add(index);
+                _IndexRecord.Add(key, tmp);
+            }
+            else
+            {
+                _IndexRecord[key].Add(index);
+            }
         }
     }
 }
 
-/***********************************************************************************************************************/
-/// <summary>
-/// テスト用クラス
-/// </summary>
-/***********************************************************************************************************************/
-static class TestSSIndex
+
+#region SSIndexの使用例
+static class UsageSSIndex
 {
+    #region テスト用クラス
+    class Person : IComparable
+    {
+        public string name;
+        public int age;
+
+
+        public Person(string name, int age)
+        {
+            this.name = name;
+            this.age = age;
+        }
+
+
+        override public string ToString()
+        {
+            return name + ", " + age.ToString();
+        }
+
+
+        public override bool Equals(object obj)
+        {
+            Person other = obj as Person;
+            if (other == null)
+                return false;
+
+            return name == other.name && age == other.age;
+        }
+
+
+        public override int GetHashCode() // Dictionaryクラスのキーで使用されるメソッド
+        {
+            if (name == null)
+                return age;
+
+            return age ^ name.GetHashCode();
+        }
+
+
+        public int CompareTo(object obj)
+        {
+            Person other = obj as Person;
+            return age - other.age;
+        }
+    }
+    #endregion
+
     static private Person[] persons = new Person[] {
         new Person("佐藤", 7),
         new Person("山田", 18),
@@ -146,123 +163,33 @@ static class TestSSIndex
         new Person("安部", 59)
     };
 
-    static public void Sort(RichTextBox memo)
+
+    static public void Sort()
     {
-        SSIndex<Person> ss = new SSIndex<Person>(persons, new IPersonEquality());
-        int[] indexs = ss.Sort(new IPersonComparer());
-        for(int i = 0; i < indexs.Length; i++)
-            memo.AppendText(indexs[i].ToString() + ": " + persons[indexs[i]].ToString() + "\n");
+        MyClass.Collection.SSIndex<Person> ss = new MyClass.Collection.SSIndex<Person>();
+        for (int i = 0; i < persons.Length; i++)
+            ss.Add(persons[i], i);
 
-        try
-        {
-            ss = new SSIndex<Person>(null, new IPersonEquality());
-            indexs = ss.Sort(new IPersonComparer());
-            for (int i = 0; i < indexs.Length; i++)
-                memo.AppendText(indexs[i].ToString() + ": " + persons[indexs[i]].ToString() + "\n");
-        }
-        catch(Exception e)
-        {
-            memo.AppendText(e.Message + "\n");
-        }
-
-        try
-        {
-            ss = new SSIndex<Person>(persons, null);
-            indexs = ss.Sort(new IPersonComparer());
-            for (int i = 0; i < indexs.Length; i++)
-                memo.AppendText(indexs[i].ToString() + ": " + persons[indexs[i]].ToString() + "\n");
-        }
-        catch (Exception e)
-        {
-            memo.AppendText(e.Message + "\n");
-        }
-
-        memo.AppendText("------------------変更前------------------------\n");
-        ss = new SSIndex<Person>(persons, new IPersonEquality());
-        indexs = ss.Sort(new IPersonComparer());
+        int[] indexs = ss.Sort();
         for (int i = 0; i < indexs.Length; i++)
-            memo.AppendText(indexs[i].ToString() + ": " + persons[indexs[i]].ToString() + "\n");
-        memo.AppendText("------------------変更後------------------------\n");
-        persons[4].age = 100; //5番目の年齢を変更してみる
-        indexs = ss.Sort(new IPersonComparer());
+            Console.WriteLine(persons[indexs[i]].ToString());
+
+        // 降順にしたいとき
+        Console.WriteLine("");
+        indexs = ss.Sort((a, b) => b.age - a.age);
         for (int i = 0; i < indexs.Length; i++)
-            memo.AppendText(indexs[i].ToString() + ": " + persons[indexs[i]].ToString() + "\n");
+            Console.WriteLine(persons[indexs[i]].ToString());
     }
 
-    static public void Search(RichTextBox memo)
+    static public void Search()
     {
-        SSIndex<Person> ss = null;
-        Person target = new Person("鈴木", 4);
+        MyClass.Collection.SSIndex<Person> ss = new MyClass.Collection.SSIndex<Person>();
+        for (int i = 0; i < persons.Length; i++)
+            ss.Add(persons[i], i);
 
-        ss = new SSIndex<Person>(persons, new IPersonEquality());
-        memo.AppendText("--------------------------------\n");
-        int[] indexs = ss.Search(target);
+        int[] indexs = ss.Search(new Person("鈴木", 4));
         for (int i = 0; i < indexs.Length; i++)
-            memo.AppendText(indexs[i].ToString() + ": " + persons[indexs[i]].ToString() + "\n");
-
-        try
-        {
-            ss = new SSIndex<Person>(persons, new IPersonEquality());
-            memo.AppendText("--------------------------------\n");
-            indexs = ss.Search(null);
-            for (int i = 0; i < indexs.Length; i++)
-                memo.AppendText(indexs[i].ToString() + ": " + persons[indexs[i]].ToString() + "\n");
-        }
-        catch (Exception e)
-        {
-            memo.AppendText(e.Message + "\n");
-        }
-
-        ss = new SSIndex<Person>(persons);
-        memo.AppendText("--------------------------------\n");
-        indexs = ss.Search(target);
-        for (int i = 0; i < indexs.Length; i++)
-            memo.AppendText(indexs[i].ToString() + ": " + persons[indexs[i]].ToString() + "\n");
-
-        ss = new SSIndex<Person>(persons, null);
-        memo.AppendText("--------------------------------\n");
-        indexs = ss.Search(target);
-        for (int i = 0; i < indexs.Length; i++)
-            memo.AppendText(indexs[i].ToString() + ": " + persons[indexs[i]].ToString() + "\n");
-    }
-
-    class Person
-    {
-        public string name;
-        public int age;
-
-        public Person(string name, int age)
-        {
-            this.name = name;
-            this.age = age;
-        }
-
-        override public string ToString()
-        {
-            return name + ", " + age.ToString();
-        }
-    }
-
-    class IPersonEquality : IEqualityComparer<Person>
-    {
-        public int GetHashCode(Person p)
-        {
-            return p.name.GetHashCode() ^ p.age.GetHashCode();
-        }
-
-        public bool Equals(Person x, Person y)
-        {
-            return (x.age == y.age) && (x.name == y.name);
-        }
-    }
-
-    class IPersonComparer : IComparer<Person>
-    {
-        public int Compare(Person x, Person y)
-        {
-            if (x.age > y.age) return 1;
-            else if (x.age < y.age) return -1;
-            else return 0;
-        }
+            Console.WriteLine(indexs[i].ToString());
     }
 }
+#endregion
