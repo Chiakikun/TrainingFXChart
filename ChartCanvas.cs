@@ -295,7 +295,7 @@ namespace TrainingFXChart
                 if (TechnicalLines[i].Item1 == Const.LMA) // MA
                     g.DrawLines(new Pen(TechnicalLines[i].Item3), drawtecline[i].ToArray());
                 else if (TechnicalLines[i].Item1 == Const.LHORZ) // 水平線
-                    DrawHorzLine(g, new Pen(TechnicalLines[i].Item3), (int)((TechnicalLines[i].Item4[0] - min) * coe), 0, idxEndCandle - idxCurrent);
+                    DrawHorzLine(g, new Pen(TechnicalLines[i].Item3), (int)((TechnicalLines[i].Item4[0] - min) * coe));
             }
 
             // y軸に価格を表示する
@@ -309,18 +309,18 @@ namespace TrainingFXChart
             for (int i = 0; i < order.Length; i++)
             {
                 if (order[i].Item1 == "買")
-                    DrawHorzLine(g, OrderBuyColor, (int)((order[i].Item2 - min) * coe), 0, idxEndCandle - idxCurrent);
+                    DrawHorzLine(g, OrderBuyColor, (int)((order[i].Item2 - min) * coe));
                 else
-                    DrawHorzLine(g, OrderSellColor, (int)((order[i].Item2 - min) * coe), 0, idxEndCandle - idxCurrent);
+                    DrawHorzLine(g, OrderSellColor, (int)((order[i].Item2 - min) * coe));
             }
 
             // 建玉の水平線
             Tuple<string, double, double, double>[] position = GetPositionData();
             for(int i = 0; i < position.Length; i++)
             {
-                DrawHorzLine(g, PositionColor, (int)((position[i].Item2 - min) * coe), 0, idxEndCandle - idxCurrent);
-                DrawHorzLine(g, RikakuColor,   (int)((position[i].Item3 - min) * coe), 0, idxEndCandle - idxCurrent);
-                DrawHorzLine(g, SonkiriColor,  (int)((position[i].Item4 - min) * coe), 0, idxEndCandle - idxCurrent);
+                DrawHorzLine(g, PositionColor, (int)((position[i].Item2 - min) * coe));
+                DrawHorzLine(g, RikakuColor,   (int)((position[i].Item3 - min) * coe));
+                DrawHorzLine(g, SonkiriColor,  (int)((position[i].Item4 - min) * coe));
             }
         }
 
@@ -433,8 +433,10 @@ namespace TrainingFXChart
         {
             if (_currency == null) return;
 
+            int i = IdxEnd;
             AdjustScrollBar();
             Invalidate();
+            int d = IdxEnd;
         }
 
         private void hScrollBar1_ValueChanged(object sender, EventArgs e)
@@ -471,10 +473,10 @@ namespace TrainingFXChart
         /// <summary>
         /// 水平線を描画する
         /// </summary>
-        private void DrawHorzLine(Graphics g, Pen pen, int horzvalue, int start_x, int end_x)
+        private void DrawHorzLine(Graphics g, Pen pen, int horzvalue)
         {
-            int x1 = start_x * iBodyWidth + iBodyWidth / 2;
-            int x2 = end_x * iBodyWidth + iBodyWidth / 2;
+            int x1 = 0;
+            int x2 = this.Width;
             int y = (this.Height - SpaceY) - horzvalue;
 
             g.DrawLines(pen, new Point[] { new Point(x1, y), new Point(x2, y) });
