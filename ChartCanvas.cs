@@ -79,9 +79,9 @@ namespace TrainingFXChart
         /// <summary>
         /// キャンバスに描画できるローソクの本数を返す
         /// </summary>
-        private int DisplayColumn()
+        private int DisplayColumn
         {
-            return (int)(this.Width / iBodyWidth);
+            get; set;
         }
 
 
@@ -110,11 +110,10 @@ namespace TrainingFXChart
 
             hScrollBar1.Minimum = 0;
             hScrollBar1.Maximum = CurrencyLength() - 1;
-            hScrollBar1.LargeChange = DisplayColumn();
+            hScrollBar1.LargeChange = DisplayColumn;
 
-            idxCurrent = CurrencyLength() - DisplayColumn();
-            if (idxCurrent < 0)
-                idxCurrent = 0;
+            idxCurrent = CurrencyLength() - DisplayColumn >= 0 ? CurrencyLength() - DisplayColumn: 0;
+
             hScrollBar1.Value = idxCurrent;
 
             AdjustScrollBar();
@@ -131,11 +130,10 @@ namespace TrainingFXChart
 
             hScrollBar1.Minimum = 0;
             hScrollBar1.Maximum = CurrencyLength() - 1;
-            hScrollBar1.LargeChange = DisplayColumn();
+            hScrollBar1.LargeChange = DisplayColumn;
 
-            idxCurrent = CurrencyLength() - DisplayColumn();
-            if (idxCurrent < 0)
-                idxCurrent = 0;
+            idxCurrent = CurrencyLength() - DisplayColumn >= 0 ? CurrencyLength() - DisplayColumn : 0;
+
             hScrollBar1.Value = idxCurrent;
 
             // ライン設定が存在するなら、読み込んだ通貨でラインを再作成する
@@ -200,16 +198,15 @@ namespace TrainingFXChart
         {
             get
             {
-                int idxEndCandle = idxCurrent + DisplayColumn() - 1;
+                int idxEndCandle = idxCurrent + DisplayColumn - 1;
                 if (idxEndCandle >= CurrencyLength())
                     idxEndCandle = CurrencyLength() - 1;
                 return idxEndCandle;
             }
             set
             {
-                idxCurrent = value - DisplayColumn() + 1;
-                if (idxCurrent < 0)
-                    idxCurrent = 0;
+                idxCurrent = value - DisplayColumn + 1 >= 0 ? value - DisplayColumn + 1: 0;
+
                 AdjustScrollBar();
                 Invalidate();
             }
@@ -334,7 +331,7 @@ namespace TrainingFXChart
             else
             {
                 int total = CurrencyLength();
-                int display = DisplayColumn();
+                int display = DisplayColumn;
                 if (display >= total)
                 {
                     hScrollBar1.Enabled = false;
@@ -343,7 +340,7 @@ namespace TrainingFXChart
                 {
                     // データ数を超えてウィンドウが広げられた場合
                     if (CurrencyLength() <= display + idxCurrent)
-                        idxCurrent = CurrencyLength() - display;
+                        idxCurrent = CurrencyLength() - display >= 0 ? CurrencyLength() - display : 0;
 
                     hScrollBar1.LargeChange = display;
                     hScrollBar1.Value = idxCurrent;
@@ -390,6 +387,8 @@ namespace TrainingFXChart
             RikakuColor = new Pen(sd.RikakuColor);
             SonkiriColor = new Pen(sd.SonkiriColor);
 
+            DisplayColumn = (int)(this.Width / iBodyWidth);
+
             AdjustScrollBar();
             Invalidate();
         }
@@ -433,10 +432,14 @@ namespace TrainingFXChart
         {
             if (_currency == null) return;
 
-            int i = IdxEnd;
+            int oldDispBody = DisplayColumn;
+            DisplayColumn = (int)(this.Width / iBodyWidth);
+
+            if(CurrencyLength() * iBodyWidth > this.Width)
+                idxCurrent = idxCurrent + oldDispBody - DisplayColumn >= 0 ? idxCurrent + oldDispBody - DisplayColumn : 0;
+
             AdjustScrollBar();
             Invalidate();
-            int d = IdxEnd;
         }
 
         private void hScrollBar1_ValueChanged(object sender, EventArgs e)

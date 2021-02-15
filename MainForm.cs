@@ -95,15 +95,11 @@ namespace TrainingFXChart
             }
             catch (Exception ex)
             {
-                MessageBox.Show("0");
                 MessageBox.Show(ex.Message);
                 Close();
             }
         }
 
-
-        private int _height;
-        private int _width;
 
         private void 練習ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -113,8 +109,6 @@ namespace TrainingFXChart
                 practiceModeControl1.IdxCurrent = chartCanvas1.IdxEnd;
                 practiceModeControl1.Visible = true;
                 TernPracticeMode(true);
-                _height = Height;
-                _width = Width;
             }
             else
             {
@@ -128,31 +122,8 @@ namespace TrainingFXChart
             chartCanvas2.ScrollBarVisible(!flg);
             chartCanvas3.ScrollBarVisible(!flg);
             chartCanvas4.ScrollBarVisible(!flg);
-            splitContainer1.IsSplitterFixed = flg;
-
-            if(flg)
-                FormBorderStyle = FormBorderStyle.FixedSingle; // 練習中はキャンバスサイズ変更不可にする
-            else
-                FormBorderStyle = FormBorderStyle.Sizable;
         }
 
-
-        private void MainForm_SizeChanged(object sender, EventArgs e)
-        {
-            if (BaseCurrency == null) return;
-
-            // 練習中はキャンバスサイズ変更不可にする
-            if (!練習ToolStripMenuItem.Enabled)
-            {
-                if(this.WindowState == FormWindowState.Maximized)
-                    this.WindowState = FormWindowState.Normal;
-                else if(this.WindowState == FormWindowState.Normal)
-                {
-                    Height = _height;
-                    Width = _width;
-                }
-            }
-        }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
