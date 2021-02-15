@@ -19,7 +19,6 @@ namespace TrainingFXChart
 
         public DialogResult ret;
 
-        public double currentvalue = 0;
 
         public NewOrderDialog()
         {
@@ -84,7 +83,6 @@ namespace TrainingFXChart
         private void OrderDialog_Shown(object sender, EventArgs e)
         {
             ret = DialogResult.Cancel;
-            label2.Text = currentvalue.ToString("F3");
         }
 
 
@@ -116,7 +114,6 @@ namespace TrainingFXChart
             else // 成行注文
             {
                 _order = Const.ONARI;
-                _value = currentvalue;
             }
 
             ret = DialogResult.OK;

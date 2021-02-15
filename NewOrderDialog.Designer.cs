@@ -34,8 +34,6 @@
             this.SashineButton = new System.Windows.Forms.RadioButton();
             this.LongOrderButton = new System.Windows.Forms.CheckBox();
             this.ShortOrderButton = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.OrderValue = new System.Windows.Forms.TextBox();
             this.OrderNumber = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
@@ -111,24 +109,6 @@
             this.ShortOrderButton.UseVisualStyleBackColor = true;
             this.ShortOrderButton.CheckedChanged += new System.EventHandler(this.ShortOrderButton_CheckedChanged);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(88, 43);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 12);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "現在値 ：";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(136, 43);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 12);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "label2";
-            // 
             // OrderValue
             // 
             this.OrderValue.Location = new System.Drawing.Point(89, 61);
@@ -168,7 +148,7 @@
             this.label3.TabIndex = 11;
             this.label3.Text = "枚数";
             // 
-            // OrderDialog
+            // NewOrderDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -176,8 +156,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.OrderNumber);
             this.Controls.Add(this.OrderValue);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.ShortOrderButton);
             this.Controls.Add(this.LongOrderButton);
             this.Controls.Add(this.SashineButton);
@@ -186,7 +164,7 @@
             this.Controls.Add(this.OKButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.Name = "OrderDialog";
+            this.Name = "NewOrderDialog";
             this.Text = "新規注文";
             this.Shown += new System.EventHandler(this.OrderDialog_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.OrderNumber)).EndInit();
@@ -202,8 +180,6 @@
         private System.Windows.Forms.RadioButton SashineButton;
         private System.Windows.Forms.CheckBox LongOrderButton;
         private System.Windows.Forms.CheckBox ShortOrderButton;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox OrderValue;
         private System.Windows.Forms.NumericUpDown OrderNumber;
         private System.Windows.Forms.Label label3;

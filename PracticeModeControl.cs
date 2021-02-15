@@ -310,14 +310,13 @@ namespace TrainingFXChart
             }
 
             NewOrderDialog order = new NewOrderDialog();
-            order.currentvalue = GetCandle()[Const.IDXCL];
             order.ShowDialog();
             if (order.ret != DialogResult.OK) return;
 
             //成行注文は即座に建玉テーブルに反映される
             if (order.Order == Const.ONARI)
             {
-                NewOrder(-1, order.Pos, order.Number, order.Value, GetCandle());
+                NewOrder(-1, order.Pos, order.Number, GetCandle()[Const.IDXCL], GetCandle());
             }
             else
             {
