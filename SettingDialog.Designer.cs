@@ -469,7 +469,7 @@
             0,
             0});
             this.IntervalSecondsSelect.Minimum = new decimal(new int[] {
-            10,
+            1,
             0,
             0,
             0});
@@ -477,7 +477,7 @@
             this.IntervalSecondsSelect.Size = new System.Drawing.Size(62, 19);
             this.IntervalSecondsSelect.TabIndex = 25;
             this.IntervalSecondsSelect.Value = new decimal(new int[] {
-            10,
+            1,
             0,
             0,
             0});
